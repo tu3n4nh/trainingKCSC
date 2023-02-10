@@ -58,7 +58,7 @@
                 <div class="col-lg-4" style="margin-top: 200px;">
                     <div class="card mb-4">
                         <div class="card-body text-center">
-                            <img src="https://scr.vn/wp-content/uploads/2020/07/Avatar-Facebook-tr%E1%BA%AFng.jpg" alt="avatar" class="rounded-circle img-fluid mb-5 mt-5" style="width: 150px;">
+                            <img src="uploads/<?php echo $row['image'] ?>" alt="avatar" class="rounded-circle img-fluid mb-5 mt-5" style="width: 150px;">
                             <?php 
                                 if($usr) echo '
                                 <div class="d-flex justify-content-center mb-2">
