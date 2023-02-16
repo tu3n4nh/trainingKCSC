@@ -164,7 +164,7 @@ Tuy nhiên, có rất nhiều site vẫn sử dụng SQL thuần để truy cậ
 - Backup dữ liệu thường xuyên: Các cụ có câu “cẩn tắc vô áy náy”. Dữ liệu phải thường xuyên được backup để nếu có bị hacker xoá thì ta vẫn có thể khôi phục được. Còn nếu cả dữ liệu backup cũng bị xoá luôn thì … chúc mừng bạn, update CV rồi tìm cách chuyển công ty thôi!
 
 Ví dụ: Với việc sử lý login dưới đây web sẽ dễ ràng bị dính sqli
-```php=
+```php
     include 'db_conn.php';
 
     session_start();
@@ -190,7 +190,7 @@ Ví dụ: Với việc sử lý login dưới đây web sẽ dễ ràng bị dí
 ```
 
 Một cách đơn giản để ngăn chặn SQL inject là filter ký tự được nhập vào, ta có thể sửa code trên như sau:
-```php=
+```php
     include 'db_conn.php';
 
     session_start();
@@ -237,7 +237,7 @@ ResultSet resultSet = statement.executeQuery();
 
 Ta có thể thay bằng:
 
-```php=
+```php
     include 'db_conn.php';
 
     session_start();
