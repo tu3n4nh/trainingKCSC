@@ -1,4 +1,28 @@
 <?php 
+    // include 'db_conn.php';
+
+    // session_start();
+    // if(isset($_POST['register'])) {
+    //     header('Location: register.php');
+    // }
+    // if(isset($_POST['login'])) {
+    //     $username = $_POST['username'];
+    //     $password = $_POST['password'];
+    //     $password = md5($password);
+
+    //     $sql = "SELECT * FROM `task_1` WHERE username = '$username' AND password = '$password'";
+    //     $query = mysqli_query($conn, $sql);
+    //     $row = mysqli_fetch_assoc($query);
+    //     if($row == 0) {
+    //         echo "<script type='text/javascript'>alert('Wrong username or password!');</script>";
+    //     } else {
+    //         $_SESSION['id'] = $row['id'];
+    //         $_SESSION['username'] = $row['username'];
+    //         header('Location: index.php?id='.$row['id']);
+    //     }
+    // }
+
+
     include 'db_conn.php';
 
     session_start();
@@ -6,8 +30,8 @@
         header('Location: register.php');
     }
     if(isset($_POST['login'])) {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+        $username = $conn->real_escape_string($_POST['username']);
+        $password = $conn->real_escape_string($_POST['password']);
         $password = md5($password);
 
         $sql = "SELECT * FROM `task_1` WHERE username = '$username' AND password = '$password'";
