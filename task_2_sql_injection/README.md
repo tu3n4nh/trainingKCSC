@@ -70,7 +70,7 @@ SELECT * FROM products WHERE category = 'Gifts' OR 1=1--' AND released = 1
 Truy vấn đã sửa đổi sẽ trả về tất cả các mục có `category = Gifts` hoặc `1 = 1`. Mà `1 = 1` luôn đúng nên truy vấn sẽ trả về tất cả các mục.
 
 
-### Lất đổ logic của ứng dụng
+### Subverting application logic
 
 Hãy xem xét một ứng dụng cho phép người dùng đăng nhập bằng `username` và `password`. Nếu người dùng gửi username `wiener` và password `bluecheese`, ứng dụng sẽ kiểm tra thông tin đăng nhập bằng cách thực hiện truy vấn SQL sau:
 
@@ -88,7 +88,7 @@ SELECT * FROM users WHERE username = 'administrator'--' AND password = ''
 
 Truy vấn này trả về người dùng có username là administrator và đăng nhập thành công với tư cách là người dùng đó.
 
-### Lấy dữ liệu từ các bảng cơ sở dữ liệu khác
+### UNION attacks
 
 Trong trường hợp kết quả của truy vấn SQL được trả về trong các phản hồi của ứng dụng, kẻ tấn công có thể tận dụng lỗ hổng SQL injection để truy xuất dữ liệu từ các bảng khác trong cơ sở dữ liệu. Điều này được thực hiện bằng cách sử dụng từ khóa UNION, cho phép bạn thực hiện một truy vấn SELECT bổ sung và nối các kết quả vào truy vấn ban đầu.
 
@@ -107,7 +107,7 @@ sau đó kẻ tấn công có thể sửa payload thành:
 
 [Chi tiết về tấn công UNION](https://portswigger.net/web-security/sql-injection/union-attacks)
 
-### Kiểm tra cơ sở dữ liệu
+### Examining the database
 
 Sau khi xác định ban đầu lỗ hổng SQL injection, thông thường sẽ rất hữu ích nếu có được một số thông tin về chính cơ sở dữ liệu. Thông tin này thường có thể mở đường cho việc khai thác thêm.
 
@@ -125,7 +125,7 @@ SELECT * FROM information_schema.tables
 
 [Chi tiết về kiểm tra cơ sở dữ liệu](https://portswigger.net/web-security/sql-injection/examining-the-database)
 
-### Lỗ hổng SQL injection mù
+### Blind SQL injection
 
 Nhiều trường hợp SQL injection là lỗ hổng mù. Điều này có nghĩa là ứng dụng không trả về kết quả của truy vấn SQL hoặc chi tiết về bất kỳ lỗi cơ sở dữ liệu nào trong các phản hồi của nó. Các lỗ hổng mù vẫn có thể bị khai thác để truy cập dữ liệu trái phép, nhưng các kỹ thuật liên quan thường phức tạp hơn và khó thực hiện hơn.
 
