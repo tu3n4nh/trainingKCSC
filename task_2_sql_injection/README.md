@@ -105,7 +105,7 @@ sau đó kẻ tấn công có thể sửa payload thành:
 
 Điều này sẽ khiến ứng dụng trả về tất cả `username` và `password` trong bảng `users`.
 
-[Đọc thêm về tấn công UNION](https://portswigger.net/web-security/sql-injection/union-attacks)
+[Chi tiết về tấn công UNION](https://portswigger.net/web-security/sql-injection/union-attacks)
 
 ### Kiểm tra cơ sở dữ liệu
 
@@ -123,7 +123,7 @@ Bạn cũng có thể xác định những bảng cơ sở dữ liệu nào tồ
 SELECT * FROM information_schema.tables
 ```
 
-[Đọc thêm về kiểm tra cơ sở dữ liệu](https://portswigger.net/web-security/sql-injection/examining-the-database)
+[Chi tiết về kiểm tra cơ sở dữ liệu](https://portswigger.net/web-security/sql-injection/examining-the-database)
 
 ### Lỗ hổng SQL injection mù
 
