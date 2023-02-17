@@ -23,13 +23,13 @@ Có rất nhiều lỗ hổng SQL injection, các cuộc tấn công và kỹ th
 ### Retrieving hidden data
 
 Hãy xem xét một ứng dụng mua sắm hiển thị các sản phẩm trong các danh mục khác nhau. Khi người dùng nhấp vào danh mục Quà tặng, trình duyệt của họ sẽ yêu cầu URL:
-```sql=
+```sql
 https://insecure-website.com/products?category=Gifts
 ```
 
 Điều này khiến ứng dụng tạo một truy vấn SQL để truy xuất thông tin chi tiết về các sản phẩm có liên quan từ cơ sở dữ liệu:
 
-```sql=
+```sql
 SELECT * FROM products WHERE category = 'Gifts' AND released = 1
 ```
 
@@ -42,79 +42,64 @@ Truy vấn SQL này yêu cầu cơ sở dữ liệu trả về:
 
 Sự hạn chế `released = 1` đang được sử dụng để ẩn các sản phẩm không được phát hành. Đối với các sản phẩm chưa được phát hành, có lẽ là `released = 0`.
 
-Ứng dụng không thực hiện bất kỳ biện pháp bảo vệ nào chống lại các cuộc tấn công SQL injection, vì vậy kẻ tấn công có thể tạo ra một cuộc tấn công như:Ứng dụng không thực hiện bất kỳ biện pháp bảo vệ nào chống lại các cuộc tấn công SQL injection, vì vậy kẻ tấn công có thể tạo ra một cuộc tấn công như:
+Ứng dụng không thực hiện bất kỳ biện pháp bảo vệ nào chống lại các cuộc tấn công SQL injection, vì vậy kẻ tấn công có thể tạo ra một cuộc tấn công như:
 
-```sql=
+```sql
 https://insecure-website.com/products?category=Gifts'--
 ```
 
 Điều này dẫn đến truy vấn SQL:
-```sql=
+```sql
 SELECT * FROM products WHERE category = 'Gifts'--' AND released = 1
 ```
-
-The key thing here is that the double-dash sequence -- is a comment indicator in SQL, and means that the rest of the query is interpreted as a comment. This effectively removes the remainder of the query, so it no longer includes
-
 
 Điều quan trọng ở đây là hai dấu gạch ngang -- là một comment trong SQL và có nghĩa là phần còn lại của truy vấn được diễn giải dưới dạng một comment. Thao tác này sẽ loại bỏ phần còn lại của truy vấn một cách hiệu quả, vì vậy nó không còn bao gồm `AND released = 1` Điều này có nghĩa là tất cả các sản phẩm được hiển thị, bao gồm cả các sản phẩm chưa được phát hành.
 
 Đi xa hơn, kẻ tấn công có thể khiến ứng dụng hiển thị tất cả các sản phẩm trong bất kỳ danh mục nào, kể cả những danh mục mà chúng không biết:
 
-```sql=
+```sql
 https://insecure-website.com/products?category=Gifts'+OR+1=1--
 ```
 
 Điều này dẫn đến truy vấn SQL:
 
-```sql=
+```sql
 SELECT * FROM products WHERE category = 'Gifts' OR 1=1--' AND released = 1
 ```
-
-The modified query will return all items where either the category is Gifts, or 1 is equal to 1. Since 1=1 is always true, the query will return all items.
 
 Truy vấn đã sửa đổi sẽ trả về tất cả các mục có `category = Gifts` hoặc `1 = 1`. Mà `1 = 1` luôn đúng nên truy vấn sẽ trả về tất cả các mục.
 
 
 ### Lất đổ logic của ứng dụng
 
-Consider an application that lets users log in with a username and password. If a user submits the username wiener and the password bluecheese, the application checks the credentials by performing the following SQL query:
-
 Hãy xem xét một ứng dụng cho phép người dùng đăng nhập bằng `username` và `password`. Nếu người dùng gửi username `wiener` và password `bluecheese`, ứng dụng sẽ kiểm tra thông tin đăng nhập bằng cách thực hiện truy vấn SQL sau:
 
-```sql=
+```sql
 SELECT * FROM users WHERE username = 'wiener' AND password = 'bluecheese'
 ```
 
 Nếu truy vấn trả về thông tin chi tiết của người dùng thì đăng nhập thành công. Nếu không, nó bị từ chối.
 
-Here, an attacker can log in as any user without a password simply by using the SQL comment sequence -- to remove the password check from the WHERE clause of the query. For example, submitting the username administrator'-- and a blank password results in the following query:
-
 Tại đây, kẻ tấn công có thể đăng nhập với tư cách là bất kỳ người dùng nào mà không cần `password` chỉ bằng cách sử dụng chuỗi comment `--` để xóa kiểm tra password khỏi mệnh đề WHERE của truy vấn. Ví dụ: gửi username `administrator'--` và `password` trống dẫn đến truy vấn sau:
 
-```sql=
+```sql
 SELECT * FROM users WHERE username = 'administrator'--' AND password = ''
 ```
-
-This query returns the user whose username is administrator and successfully logs the attacker in as that user.
 
 Truy vấn này trả về người dùng có username là administrator và đăng nhập thành công với tư cách là người dùng đó.
 
 ### Lấy dữ liệu từ các bảng cơ sở dữ liệu khác
 
-In cases where the results of a SQL query are returned within the application's responses, an attacker can leverage a SQL injection vulnerability to retrieve data from other tables within the database. This is done using the UNION keyword, which lets you execute an additional SELECT query and append the results to the original query.
-
-For example, if an application executes the following query containing the user input "Gifts":
-
 Trong trường hợp kết quả của truy vấn SQL được trả về trong các phản hồi của ứng dụng, kẻ tấn công có thể tận dụng lỗ hổng SQL injection để truy xuất dữ liệu từ các bảng khác trong cơ sở dữ liệu. Điều này được thực hiện bằng cách sử dụng từ khóa UNION, cho phép bạn thực hiện một truy vấn SELECT bổ sung và nối các kết quả vào truy vấn ban đầu.
 
 Ví dụ: nếu một ứng dụng thực thi truy vấn sau có chứa thông tin nhập "Gifts" từ phía người dùng:
 
-```sql=
+```sql
 SELECT name, description FROM products WHERE category = 'Gifts'
 ```
 
 sau đó kẻ tấn công có thể sửa payload thành:
-```sql=
+```sql
 ' UNION SELECT username, password FROM users--
 ```
 
@@ -128,13 +113,13 @@ Sau khi xác định ban đầu lỗ hổng SQL injection, thông thường sẽ
 
 Bạn có thể truy vấn chi tiết phiên bản của cơ sở dữ liệu. Cách thực hiện điều này phụ thuộc vào loại cơ sở dữ liệu, vì vậy bạn có thể suy ra loại cơ sở dữ liệu từ bất kỳ kỹ thuật nào hoạt động. Ví dụ: trên Oracle, bạn có thể thực thi:
 
-```sql=
+```sql
 SELECT * FROM v$version
 ```
 
 Bạn cũng có thể xác định những bảng cơ sở dữ liệu nào tồn tại và chúng chứa những cột nào. Ví dụ: trên hầu hết các cơ sở dữ liệu, bạn có thể thực hiện truy vấn sau để liệt kê các bảng:
 
-```sql=
+```sql
 SELECT * FROM information_schema.tables
 ```
 
@@ -163,7 +148,7 @@ Tuy nhiên, có rất nhiều site vẫn sử dụng SQL thuần để truy cậ
 - Phân quyền rõ ràng trong DB: Nếu chỉ truy cập dữ liệu từ một số bảng, hãy tạo một account trong DB, gán quyền truy cập cho account đó chứ đừng dùng account root hay sa. Lúc này, dù hacker có inject được sql cũng không thể đọc dữ liệu từ các bảng chính, sửa hay xoá dữ liệu.
 - Backup dữ liệu thường xuyên: Các cụ có câu “cẩn tắc vô áy náy”. Dữ liệu phải thường xuyên được backup để nếu có bị hacker xoá thì ta vẫn có thể khôi phục được. Còn nếu cả dữ liệu backup cũng bị xoá luôn thì … chúc mừng bạn, update CV rồi tìm cách chuyển công ty thôi!
 
-Ví dụ: Với việc sử lý login dưới đây web sẽ dễ ràng bị dính sqli
+Ví dụ: Với việc xử lý login dưới đây web sẽ dễ dàng bị sqli
 ```php
     include 'db_conn.php';
 
