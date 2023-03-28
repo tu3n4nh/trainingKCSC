@@ -146,7 +146,7 @@ Vậy là dựa vào SSRF em có thể truy cập vào thêm 2 port khác nữa 
 
 Nếu sử dụng port 22 để leo lên root thì em phải biết được key nên hướng tấn công của em sẽ là thông qua port 6379 để up shell.
 
-Biết server sử dụng redis để lưu trữ file, em gửi dụng Gopher protocol để upload Phpshell lên đó bằng cách sử dụng tool: [Gopherus](https://github.com/tarunkant/Gopherus)
+Biết server sử dụng redis để lưu trữ file, em gửi dụng Gopher protocol để upload shell lên đó bằng cách sử dụng tool: [Gopherus](https://github.com/tarunkant/Gopherus)
 
 > Gopher là một giao thức hoạt động ở tầng Application, nó xung cấp cho ta khả năng trích xuất và xem web document được chứa trên remote Server, gopher là tiền thân của HTTP bây giờ. Ok đã biết gopher là gì rồi thì ta đi tìm hiểu xem tại sao gopher có thể sử dụng để khai thác SSRF.
 > 
@@ -185,9 +185,11 @@ Còn về file `passwd` cũng không đọc được :<
 Em đi theo hướng còn lại của tool Gopherus là tạo ReverseShell:
 
 1. Ngrok tcp: `ngrok tcp 1234`
+
     ![](https://i.imgur.com/TQ6DLWe.png)
 
 2. Tạo ReverseShell bằng Gopherus:
+
     ![](https://i.imgur.com/Lw4ob6l.png)
 
 3. Trước khi upload shell này em cần: 
@@ -211,10 +213,13 @@ Tiếp theo là lấy `passwd` cho Validation Room:
 Write up trôi như vậy dĩ nhiên là vì em đã đi tham khảo những bài write up khác, qua bài này em học được rất kiểu kỹ thuật mới cũng như là các tool mới. 
 
 Trân thành cảm ơn tác giả của cách post:
+
 https://nhattruong.blog/2022/04/30/write-up-root-me-server-side-request-forgery/
+
 https://nhienit.wordpress.com/2020/10/20/exploit-ssrf-voi-gopher-protocol/
+
 https://5h4s1.wordpress.com/2022/04/29/task-8/
 
 Và đặc biệt là cảm ơn:
 
-![](https://i.imgur.com/fr2m83N.png)
+![](https://i.imgur.com/E89aoPd.png)
