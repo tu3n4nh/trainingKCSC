@@ -209,7 +209,7 @@ Tiếp theo là lấy `passwd` cho Validation Room:
 
 ![](https://i.imgur.com/EeuPxnI.png)
 
-## Kết luận
+## Tổng kết
 Write up trôi như vậy dĩ nhiên là vì em đã đi tham khảo những bài write up khác, qua bài này em học được rất kiểu kỹ thuật mới cũng như là các tool mới. 
 
 Trân thành cảm ơn tác giả của cách post:
