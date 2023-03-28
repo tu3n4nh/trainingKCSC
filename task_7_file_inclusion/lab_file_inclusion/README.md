@@ -45,7 +45,7 @@ Dựa vào việc `include(aaa.php)` từ ngay trang `index.php` ta có thể t�
 
 ## Remote File Inclusion (RFI):
 
-![](https://i.imgur.com/0Rva92V.png
+![](https://i.imgur.com/0Rva92V.png)
 
 Source code: https://github.com/tu3n4nh/trainingKCSC/blob/main/task_7_file_inclusion/lab_file_inclusion/index.php
 
